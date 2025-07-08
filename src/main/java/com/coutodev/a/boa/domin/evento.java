@@ -1,5 +1,6 @@
 package com.coutodev.a.boa.domin;
 
+import com.coutodev.a.boa.DTO.AtualizaçaoEvento;
 import com.coutodev.a.boa.DTO.EventoRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -69,7 +70,8 @@ public class evento {
         this.local = dto.local();
         this.descrição = dto.descrição();
         this.organizador = dto.organizador();
-
     }
+
+
     public evento(){}
 }

@@ -4,10 +4,8 @@ services:
   postgres:
     image: postgres:latest
     container_name: aboa
-    environment:
-      POSTGRES_DB: aboa
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+    env_file:
+      - .env
     ports:
       - "5431:5432"
     restart: always

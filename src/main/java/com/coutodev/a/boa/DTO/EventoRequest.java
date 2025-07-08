@@ -16,4 +16,5 @@ public record EventoRequest(
        @NotBlank String organizador
 ) {
 
+
 }
