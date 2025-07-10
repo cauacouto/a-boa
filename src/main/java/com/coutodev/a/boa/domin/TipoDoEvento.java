@@ -2,16 +2,16 @@ package com.coutodev.a.boa.domin;
 
 public enum TipoDoEvento {
 
-    SHOW,
-    FESTIVAL,
-    SAMBA,
-    PAGODE,
-    AFTER,
-    CULTURAL,
-    ESPORTIVO,
+    SHOW("show"),
+    FESTIVAL("festival"),
+    SAMBA("samba"),
+    PAGODE("pagode"),
+    AFTER("after"),
+    CULTURAL("cultural"),
+    ESPORTIVO("esportivo"),
     GASTRONOMICO("gastronômico"),
-    FEIRA,
-    OUTROS;
+    FEIRA("feira"),
+    OUTROS("outros");
 
 
     private String descricao;

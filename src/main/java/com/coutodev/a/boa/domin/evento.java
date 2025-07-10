@@ -5,7 +5,6 @@ import com.coutodev.a.boa.DTO.EventoRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 @Entity
@@ -62,6 +61,38 @@ public class evento {
         return organizador;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setTipo(TipoDoEvento tipo) {
+        this.tipo = tipo;
+    }
+
+    public void setDateInitial(LocalDateTime dateInitial) {
+        this.dateInitial = dateInitial;
+    }
+
+    public void setDateEnd(LocalDateTime dateEnd) {
+        this.dateEnd = dateEnd;
+    }
+
+    public void setLocal(String local) {
+        this.local = local;
+    }
+
+    public void setDescrição(String descrição) {
+        this.descrição = descrição;
+    }
+
+    public void setOrganizador(String organizador) {
+        this.organizador = organizador;
+    }
+
     public evento (EventoRequest dto) {
         this.nome = dto.nome();
         this.tipo = dto.tipo();
@@ -70,6 +101,16 @@ public class evento {
         this.local = dto.local();
         this.descrição = dto.descrição();
         this.organizador = dto.organizador();
+    }
+
+    public void atualizarCom(AtualizaçaoEvento dto) {
+        setNome(dto.nome());
+        setTipo(dto.tipo());
+        setDateInitial(dto.dateInitial());
+        setDateEnd(dto.dateEnd());
+        setLocal(dto.local());
+        setDescrição(dto.descrição());
+        setOrganizador(dto.organizador());
     }
 
 
