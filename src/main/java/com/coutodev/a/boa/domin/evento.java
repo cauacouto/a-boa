@@ -22,8 +22,7 @@ public class evento {
     @Enumerated(EnumType.STRING)
     private TipoDoEvento tipo;
 
-    private LocalDateTime dateInitial;
-    private  LocalDateTime dateEnd;
+    private LocalDateTime data;
 
     private String local;
 
@@ -31,88 +30,78 @@ public class evento {
 
     private String organizador;
 
-    public TipoDoEvento getTipo() {
-        return tipo;
+    public evento(EventoRequest dto) {
+
+    }
+
+    public evento() {
+
+    }
+
+
+    public void atualizarCom(AtualizaçaoEvento dto) {
+        this.nome = dto.getNome();
+        this.local = dto.getLocal();
+        this.data = dto.getData();
+        this.descrição = dto.getDescrição();
+
+
+
     }
 
     public long getId() {
         return id;
     }
 
-    public String getNome() {
-        return nome;
-    }
-
-    public LocalDateTime getDateInitial() {
-        return dateInitial;
-    }
-    public LocalDateTime getDateEnd() {
-        return dateEnd;
-    }
-    public String getLocal() {
-        return local;
-    }
-
-    public String getDescrição() {
-        return descrição;
-    }
-
-    public String getOrganizador() {
-        return organizador;
-    }
-
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
     }
 
     public void setNome(String nome) {
         this.nome = nome;
     }
 
+    public TipoDoEvento getTipo() {
+        return tipo;
+    }
+
     public void setTipo(TipoDoEvento tipo) {
         this.tipo = tipo;
     }
 
-    public void setDateInitial(LocalDateTime dateInitial) {
-        this.dateInitial = dateInitial;
+    public LocalDateTime getData() {
+        return data;
     }
 
-    public void setDateEnd(LocalDateTime dateEnd) {
-        this.dateEnd = dateEnd;
+    public void setData(LocalDateTime data) {
+        this.data = data;
+    }
+
+    public String getLocal() {
+        return local;
     }
 
     public void setLocal(String local) {
         this.local = local;
     }
 
+    public String getDescrição() {
+        return descrição;
+    }
+
     public void setDescrição(String descrição) {
         this.descrição = descrição;
+    }
+
+    public String getOrganizador() {
+        return organizador;
     }
 
     public void setOrganizador(String organizador) {
         this.organizador = organizador;
     }
-
-    public evento (EventoRequest dto) {
-        this.nome = dto.nome();
-        this.tipo = dto.tipo();
-        this.dateInitial = dto.dateInitial();
-        this.dateEnd = dto.dateEnd();
-        this.local = dto.local();
-        this.descrição = dto.descrição();
-        this.organizador = dto.organizador();
-    }
-
-    public void atualizarCom(AtualizaçaoEvento dto) {
-        setNome(dto.nome());
-        setTipo(dto.tipo());
-        setDateInitial(dto.dateInitial());
-        setDateEnd(dto.dateEnd());
-        setLocal(dto.local());
-        setDescrição(dto.descrição());
-        setOrganizador(dto.organizador());
-    }
-
-
-    public evento(){}
 }

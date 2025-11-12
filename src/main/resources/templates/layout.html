@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title th:text="${pageTitle} ?: 'A Boa - Eventos'">A Boa - Eventos</title>
+    <link rel="stylesheet" th:href="@{/style.css}" />
+</head>
+<body>
+<header class="site-header">
+    <div class="container header-inner">
+        <a class="brand" th:href="@{/}">A Boa</a>
+        <nav class="main-nav">
+            <a th:href="@{/eventos}">Eventos</a>
+            <a th:href="@{/eventos/novo}">Criar Evento</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+    <section th:replace="${content}"></section>
+</main>
+
+<footer class="site-footer">
+    <div class="container">
+        <small>© <span th:text="${#dates.format(#dates.createNow(),'yyyy')}">2025</span> A Boa — Backend: Java 17 • Spring Boot</small>
+    </div>
+</footer>
+
+<script>
+    // Confirm delete
+    function confirmDelete(formId, name) {
+        if (confirm('Remover evento \"' + name + '\"? Esta ação não pode ser desfeita.')) {
+            document.getElementById(formId).submit();
+        }
+    }
+</script>
+</body>
+</html>

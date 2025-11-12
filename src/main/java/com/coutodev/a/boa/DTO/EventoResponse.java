@@ -9,8 +9,8 @@ public record EventoResponse(
         long id,
         String nome,
         TipoDoEvento tipo,
-        LocalDateTime dateInitial,
-        LocalDateTime dateEnd,
+        LocalDateTime data,
+
         String local,
         String descrição,
         String organizador
@@ -19,8 +19,7 @@ public record EventoResponse(
         this(evento.getId(),
                 evento.getNome(),
               evento.getTipo(),
-                evento.getDateInitial(),
-                evento.getDateEnd(),
+                evento.getData(),
                 evento.getLocal(),
                 evento.getDescrição(),
                 evento.getOrganizador());

@@ -11,32 +11,45 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class EventoServise {
+public class EventoService {
 
     @Autowired
-    EventoRpository eventoRpository;
+    private EventoRpository eventoRepository;
+
+    public EventoService(EventoRpository eventoRepository) {
+        this.eventoRepository = eventoRepository;
+    }
 
     public void criarEvento(EventoRequest dto) {
-        evento newevento = new evento(dto);
-        this.eventoRpository.save(newevento);
+        evento novoEvento = new evento(dto);
+        this.eventoRepository.save(novoEvento);
     }
 
     public boolean atualizarEvento(AtualizaçaoEvento dto) {
-        var eventoOpt = eventoRpository.findById(dto.id());
+        var eventoOpt = eventoRepository.findById(dto.getId());
         if (eventoOpt.isEmpty()) return false;
+
         var evento = eventoOpt.get();
         evento.atualizarCom(dto);
-        eventoRpository.save(evento);
+        eventoRepository.save(evento);
         return true;
     }
+
     public List<EventoResponse> listarEventos() {
-        return eventoRpository.findAll().stream()
+        return eventoRepository.findAll()
+                .stream()
                 .map(EventoResponse::new)
                 .toList();
     }
 
     public void deletarEvento(Long id) {
-        eventoRpository.deleteById(id);
+        eventoRepository.deleteById(id);
+    }
+
+    public EventoResponse buscarPorId(Long id) {
+        return eventoRepository.findById(id)
+                .map(EventoResponse::new)
+                .orElse(null);
     }
 }
 
