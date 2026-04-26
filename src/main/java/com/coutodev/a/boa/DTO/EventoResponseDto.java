@@ -4,7 +4,7 @@ import com.coutodev.a.boa.domin.TipoDoEvento;
 
 import java.time.LocalDateTime;
 
-public class EventoRequest{
+public class EventoResponseDto {
       private String nome;
       private TipoDoEvento tipo;
       private LocalDateTime data;
@@ -13,7 +13,7 @@ public class EventoRequest{
      private String descrição;
       private String organizador;
 
-      public EventoRequest(){}
+      public EventoResponseDto(){}
 
 
     public String getNome() {
