@@ -1,7 +1,7 @@
 package com.coutodev.a.boa.domin;
 
 import com.coutodev.a.boa.DTO.AtualizaçaoEvento;
-import com.coutodev.a.boa.DTO.EventoRequest;
+import com.coutodev.a.boa.DTO.EventoResponseDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 
 @AllArgsConstructor
 
-public class evento {
+public class Evento {
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     private long id;
@@ -29,12 +29,14 @@ public class evento {
     private String descrição;
 
     private String organizador;
+    @Column(name = "image_url")
+    private String imageUrl;
 
-    public evento(EventoRequest dto) {
+    public Evento(EventoResponseDto dto) {
 
     }
 
-    public evento() {
+    public Evento() {
 
     }
 
@@ -103,5 +105,13 @@ public class evento {
 
     public void setOrganizador(String organizador) {
         this.organizador = organizador;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }
