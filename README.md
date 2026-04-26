@@ -1,96 +1,191 @@
-# 🍻 A Boa
+<div align="center">
 
-**A Boa** é uma aplicação backend desenvolvida em **Java 17 com Spring Boot**, criada para facilitar a **divulgação e o gerenciamento de eventos**.  
-A API segue o padrão **RESTful**, com endpoints para **criar, listar, atualizar e deletar** eventos.  
-O banco de dados **PostgreSQL** roda via **Docker Compose**, garantindo praticidade no setup e isolamento do ambiente.
+<img src="https://img.shields.io/badge/status-em%20desenvolvimento-yellow?style=for-the-badge" />
+<img src="https://img.shields.io/badge/java-17-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" />
+<img src="https://img.shields.io/badge/Spring_Boot-3.x-6DB33F?style=for-the-badge&logo=spring&logoColor=white" />
+<img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" />
+<img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" />
+<img src="https://img.shields.io/badge/Cloudinary-3448C5?style=for-the-badge&logo=cloudinary&logoColor=white" />
 
----
+<br/>
+<br/>
 
-## 🚀 Tecnologias Utilizadas
+# 🎉 A-Boa
 
-- **Java 17**
-- **Spring Boot**
-  - Spring Web
-  - Spring Data JPA
-  - Spring Validation
-- **PostgreSQL (via Docker Compose)**
-- **Maven**
-- **Swagger / OpenAPI** (para documentação dos endpoints)
-- **Docker**
+### Plataforma de cadastro e gerenciamento de eventos culturais
 
----
+*Shows • Festivais • Pagodes • Feiras • e muito mais*
 
-
-
-A-Boa/
-│
-├── src/
-
-│ ├── main/
-
-│ │ ├── java/
-
-│ │ │ └── com/
-
-│ │ │ └── aboa/
-
-│ │ │ ├── controller/
-
-│ │ │ ├── model/
-
-│ │ │ ├── repository/
-
-│ │ │ ├── service/
-
-│ │ │ └── AboaApplication.java
-
-│ │ └── resources/
-
-│ │ ├── application.properties
-
-│ │ └── data.sql
-
-│ └── test/
-│
-├── Dockerfile
-
-├── docker-compose.yml
-
-├── pom.xml
-
-└── README.md
-
-
-
-
+</div>
 
 ---
 
-## ⚙️ Endpoints da API
+## 📌 Sobre o projeto
 
-| Método | Endpoint         | Descrição                          | Corpo da Requisição | Retorno |
-|--------|------------------|-------------------------------------|---------------------|----------|
-| **POST** | `/eventos`       | Cria um novo evento                 | `EventoRequest`     | `200 OK` |
-| **PUT**  | `/eventos`       | Atualiza um evento existente        | `AtualizacaoEvento` | `200 OK` ou `404 Not Found` |
-| **GET**  | `/eventos`       | Lista todos os eventos cadastrados  | —                   | Lista de `EventoResponse` |
-| **DELETE** | `/eventos/{id}` | Remove um evento pelo ID            | —                   | `204 No Content` |
+**A-Boa** é uma API REST para cadastro e gerenciamento de eventos. A plataforma permite que usuários criem, editem, listem e removam eventos de diversas categorias, além de fazer upload do banner do evento.
 
 ---
 
-### 🧾 Exemplo de Requisições
+## 🚀 Tecnologias
 
-#### ➕ Criar Evento (`POST /eventos`)
+| Tecnologia | Versão | Uso |
+|---|---|---|
+| Java | 17 | Linguagem principal |
+| Spring Boot | 3.x | Framework web |
+| Spring Data JPA | — | Persistência de dados |
+| PostgreSQL | latest | Banco de dados |
+| Flyway | — | Versionamento do banco |
+| Docker | — | Containerização |
+| Cloudinary | — | Upload de imagens |
+
+---
+
+## 🎭 Categorias de Eventos
+
+```
+SHOW • FESTIVAL • SAMBA • PAGODE • AFTER
+CULTURAL • ESPORTIVO • GASTRONOMICO • FEIRA • OUTROS
+```
+
+---
+
+## ⚙️ Como rodar
+
+### Pré-requisitos
+
+![Git](https://img.shields.io/badge/Git-F05032?style=flat&logo=git&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)
+![Java](https://img.shields.io/badge/Java_17-ED8B00?style=flat&logo=openjdk&logoColor=white)
+![Maven](https://img.shields.io/badge/Maven-C71A36?style=flat&logo=apache-maven&logoColor=white)
+
+### 1. Clone o repositório
+
+```bash
+git clone git@github.com:cauacouto/a-boa.git
+cd a-boa
+```
+
+### 2. Gere o `.jar`
+
+```bash
+./mvnw clean package -DskipTests
+```
+
+### 3. Suba os containers
+
+```bash
+docker-compose up --build
+```
+
+> API disponível em `http://localhost:8080` 🟢
+
+---
+
+## 🔌 Endpoints
+
+### Eventos
+
+| Método | Endpoint | Descrição |
+|---|---|---|
+| ![GET](https://img.shields.io/badge/GET-61AFFE?style=flat) | `/eventos` | Lista todos os eventos |
+| ![GET](https://img.shields.io/badge/GET-61AFFE?style=flat) | `/eventos/{id}` | Busca evento por ID |
+| ![POST](https://img.shields.io/badge/POST-49CC90?style=flat) | `/eventos` | Cadastra um novo evento |
+| ![PUT](https://img.shields.io/badge/PUT-FCA130?style=flat) | `/eventos/{id}` | Atualiza um evento |
+| ![DELETE](https://img.shields.io/badge/DELETE-F93E3E?style=flat) | `/eventos/{id}` | Remove um evento |
+| ![POST](https://img.shields.io/badge/POST-49CC90?style=flat) | `/eventos/{id}/imagem` | Upload do banner do evento |
+
+### Exemplo — Criar evento
+
 ```json
 {
-  "nome": "Festival de Música",
-  "local": "Rio de Janeiro",
-  "data": "2025-11-20",
-  "descricao": "Evento com várias atrações musicais",
-  "preco": 50.0
+  "nome": "Planeta Brasil 10 Anos",
+  "tipo": "FESTIVAL",
+  "data": "2025-01-26T20:00:00",
+  "local": "Mineirão, Belo Horizonte",
+  "descricao": "Festival de música com grandes atrações nacionais e internacionais",
+  "organizador": "Planeta Brasil Produções"
 }
+```
 
+### Exemplo — Upload de imagem
 
-git clone https://github.com/cauacouto/a-boa.git
-cd a-boa
+```bash
+curl -X POST http://localhost:8080/eventos/1/imagem \
+  -F "file=@banner.jpg"
+```
 
-http://localhost:8080/swagger-ui.html
+> Formatos aceitos: `jpeg`, `png`, `webp` — tamanho máximo: `5MB`
+
+---
+
+## 🌱 Variáveis de Ambiente
+
+Crie um arquivo `.env` na raiz do projeto (ou configure no `docker-compose.yml`):
+
+```env
+SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/aboa
+SPRING_DATASOURCE_USERNAME=postgres
+SPRING_DATASOURCE_PASSWORD=postgres
+```
+
+---
+
+## 🐳 Docker
+
+```bash
+# Subir projeto completo
+docker-compose up --build
+
+# Parar containers
+docker-compose down
+
+# Imagem no Docker Hub
+docker pull cauacouto/aboa-app:latest
+```
+
+---
+
+## 📁 Estrutura do Projeto
+
+```
+a-boa/
+├── src/
+│   └── main/
+│       ├── java/com/coutodev/a/boa/
+│       │   ├── controller/
+│       │   ├── service/
+│       │   ├── repository/
+│       │   ├── model/
+│       │   └── dto/
+│       └── resources/
+│           ├── application.yml
+│           └── db/migration/
+│               ├── V1__create_tables.sql
+│               └── V2__add_image_url.sql
+├── Dockerfile
+├── docker-compose.yml
+└── pom.xml
+```
+
+---
+
+## 🗺️ Roadmap
+
+- [x] CRUD de eventos
+- [x] Upload de imagem via Cloudinary
+- [x] Containerização com Docker
+- [ ] Autenticação com JWT
+- [ ] Filtros por categoria e data
+- [ ] Paginação nas listagens
+- [ ] Testes unitários e de integração
+
+---
+
+<div align="center">
+
+Feito com 💛 por [cauacouto](https://github.com/cauacouto)
+
+![GitHub followers](https://img.shields.io/github/followers/cauacouto?style=social)
+![GitHub stars](https://img.shields.io/github/stars/cauacouto/a-boa?style=social)
+
+</div>
