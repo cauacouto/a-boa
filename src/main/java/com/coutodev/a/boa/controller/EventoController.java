@@ -1,12 +1,12 @@
 package com.coutodev.a.boa.controller;
 
-import com.coutodev.a.boa.DTO.AtualizaçaoEvento;
 import com.coutodev.a.boa.DTO.EventoResponseDto;
 import com.coutodev.a.boa.DTO.EventoRequestDto;
 import com.coutodev.a.boa.Service.EventoService;
 import com.coutodev.a.boa.domin.Evento;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -24,19 +24,18 @@ public class EventoController {
 
     @PostMapping()
     public ResponseEntity<EventoResponseDto> criarEvento(@RequestBody @Valid EventoRequestDto dto) {
-        this.service.criarEvento(dto);
-        return ResponseEntity.ok().build();
+        EventoResponseDto response = service.criarEvento(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping
-    public ResponseEntity<Void> atualizar(@RequestBody @Valid AtualizaçaoEvento dto) {
-        return this.service.atualizarEvento(dto)
-                ? ResponseEntity.ok().build()
-                : ResponseEntity.notFound().build();
+    public ResponseEntity<EventoResponseDto> atualizar(@RequestBody @Valid EventoRequestDto dto,Long id) {
+     EventoResponseDto response = service.atualizarEvento(dto,id);
+     return ResponseEntity.ok(response);
     }
     @GetMapping
     public ResponseEntity listarEventos() {
-        List<EventoRequestDto> eventos = this.service.listarEventos();
+        List<EventoResponseDto> eventos = this.service.listarEventos();
         return ResponseEntity.ok(eventos);
     }
     @DeleteMapping("/{id}")
@@ -44,6 +43,12 @@ public class EventoController {
     public ResponseEntity deletar(@PathVariable Long id) {
         service.deletarEvento(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<EventoResponseDto> buscarPorId(@PathVariable Long id){
+      EventoResponseDto buscar = service.buscarPorId(id);
+      return ResponseEntity.ok(buscar);
     }
 
     @PostMapping("/{id}/imagem")
