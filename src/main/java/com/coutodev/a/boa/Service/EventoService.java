@@ -1,6 +1,5 @@
 package com.coutodev.a.boa.Service;
 
-import com.coutodev.a.boa.DTO.AtualizaçaoEvento;
 import com.coutodev.a.boa.DTO.EventoRequestDto;
 import com.coutodev.a.boa.DTO.EventoResponseDto;
 import com.coutodev.a.boa.Repository.EventoRpository;
@@ -24,6 +23,7 @@ public class EventoService {
 
     private final String uploadDir = "uploads/eventos/";
     private final List<String> tiposPermitidos = List.of("image/jpeg","image/png","image/webp");
+    private final long tamanhoMaximo = 5 * 1024 * 1024; // 5MB
 
     private final ModelMapper mapper;
 
@@ -34,24 +34,23 @@ public class EventoService {
 
     public EventoResponseDto criarEvento(EventoRequestDto dto) {
         Evento evento = mapper.map(dto, Evento.class);
-        evento = eventoRepository.save(evento);
-        return mapper.map(evento,EventoResponseDto.class);
+        var salvo = eventoRepository.save(evento);
+        return mapper.map(salvo,EventoResponseDto.class);
     }
 
-    public boolean atualizarEvento(AtualizaçaoEvento dto) {
-        var eventoOpt = eventoRepository.findById(dto.getId());
-        if (eventoOpt.isEmpty()) return false;
+    public EventoResponseDto atualizarEvento(EventoRequestDto dto,Long id) {
+        var evento = eventoRepository.findById(id)
+                .orElseThrow(()-> new RuntimeException("evento não encontrado"));
+        mapper.map(dto,evento);
+        var salvo =  eventoRepository.save(evento);
+        return mapper.map(salvo, EventoResponseDto.class);
 
-        var evento = eventoOpt.get();
-        evento.atualizarCom(dto);
-        eventoRepository.save(evento);
-        return true;
     }
 
-    public List<EventoRequestDto> listarEventos() {
+    public List<EventoResponseDto> listarEventos() {
         return eventoRepository.findAll()
                 .stream()
-                .map(EventoRequestDto::new)
+                .map(Evento-> mapper.map(Evento, EventoResponseDto.class))
                 .toList();
     }
 
@@ -59,16 +58,20 @@ public class EventoService {
         eventoRepository.deleteById(id);
     }
 
-    public EventoRequestDto buscarPorId(Long id) {
+    public EventoResponseDto buscarPorId(Long id) {
         return eventoRepository.findById(id)
-                .map(EventoRequestDto::new)
-                .orElse(null);
+                .map(Evento-> mapper.map(Evento, EventoResponseDto.class))
+                .orElseThrow(()-> new RuntimeException("evento não encontrado"));
     }
 
     public Evento uploadImagem(Long id, MultipartFile file){
         if (!tiposPermitidos.contains(file.getContentType())){
             throw new RuntimeException("apenas imagens são permitidas");
         }
+        if (file.getSize() > tamanhoMaximo){
+            throw new RuntimeException("imagem deve ter no minimo 5mb");
+        }
+
         Evento evento = eventoRepository.findById(id)
                 .orElseThrow(()-> new RuntimeException("evento não encontrado"));
 
