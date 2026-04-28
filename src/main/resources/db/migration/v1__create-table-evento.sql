@@ -1,14 +1,10 @@
-create table evento(
-
-                       nome varchar(100) not null,
-                       Tipo_Do_Evento varchar(50) not null,
-
-                       date_inicial timestamp not null,
-                       date_End timestamp not null,
-
-                       local varchar(255),
-
-                       descrição TEXT not null ,
-
-                       organizador varchar(100) not null
+-- V1__create-table-evento.sql
+CREATE TABLE evento (
+                        id BIGSERIAL PRIMARY KEY,
+                        nome VARCHAR(100) NOT NULL,
+                        tipo_do_evento VARCHAR(50) NOT NULL,
+                        data TIMESTAMP NOT NULL,
+                        local VARCHAR(255),
+                        descricao TEXT NOT NULL,
+                        organizador VARCHAR(100) NOT NULL
 );
