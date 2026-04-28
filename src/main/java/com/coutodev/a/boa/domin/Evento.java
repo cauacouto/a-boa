@@ -1,17 +1,17 @@
 package com.coutodev.a.boa.domin;
 
-import com.coutodev.a.boa.DTO.AtualizaçaoEvento;
-import com.coutodev.a.boa.DTO.EventoResponseDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "evento")
 @Data
-
 @AllArgsConstructor
+@NoArgsConstructor
 
 public class Evento {
     @Id
@@ -20,36 +20,21 @@ public class Evento {
 
     private String nome;
     @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_evento")
     private TipoDoEvento tipo;
+
 
     private LocalDateTime data;
 
     private String local;
 
-    private String descrição;
+    @Column(name = "descricao")
+    private String descricao;
 
     private String organizador;
     @Column(name = "image_url")
     private String imageUrl;
 
-    public Evento(EventoResponseDto dto) {
-
-    }
-
-    public Evento() {
-
-    }
-
-
-    public void atualizarCom(AtualizaçaoEvento dto) {
-        this.nome = dto.getNome();
-        this.local = dto.getLocal();
-        this.data = dto.getData();
-        this.descrição = dto.getDescrição();
-
-
-
-    }
 
     public long getId() {
         return id;
@@ -91,12 +76,12 @@ public class Evento {
         this.local = local;
     }
 
-    public String getDescrição() {
-        return descrição;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setDescrição(String descrição) {
-        this.descrição = descrição;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public String getOrganizador() {
