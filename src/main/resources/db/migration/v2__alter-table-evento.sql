@@ -1,2 +1,2 @@
--- V2__add_image_to_event.sql
-ALTER TABLE events ADD COLUMN image_url VARCHAR(255);
+-- V2__rename-descricao.sql
+ALTER TABLE evento RENAME COLUMN descrição TO descricao;
