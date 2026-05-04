@@ -8,6 +8,8 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,8 +31,8 @@ public class EventoController {
     }
 
     @PutMapping
-    public ResponseEntity<EventoResponseDto> atualizar(@RequestBody @Valid EventoRequestDto dto,Long id) {
-     EventoResponseDto response = service.atualizarEvento(dto,id);
+    public ResponseEntity<EventoResponseDto> atualizar(@RequestBody @Valid EventoRequestDto dto,Long id,@AuthenticationPrincipal UserDetails usuarioLogado) {
+     EventoResponseDto response = service.atualizarEvento(dto,id,usuarioLogado);
      return ResponseEntity.ok(response);
     }
     @GetMapping
@@ -40,8 +42,8 @@ public class EventoController {
     }
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity deletar(@PathVariable Long id) {
-        service.deletarEvento(id);
+    public ResponseEntity deletar(@PathVariable Long id, @AuthenticationPrincipal UserDetails usuarioLogado) {
+        service.deletarEvento(id,usuarioLogado);
         return ResponseEntity.noContent().build();
     }
 
@@ -52,8 +54,8 @@ public class EventoController {
     }
 
     @PostMapping("/{id}/imagem")
-    public ResponseEntity<Evento> uploadImagem(@PathVariable Long id,@RequestParam("file") MultipartFile file){
-        return ResponseEntity.ok(service.uploadImagem(id,file));
+    public ResponseEntity<Evento> uploadImagem(@PathVariable Long id,@RequestParam("file") MultipartFile file,@AuthenticationPrincipal UserDetails usuarioLogado){
+        return ResponseEntity.ok(service.uploadImagem(id,file,usuarioLogado));
     }
 
 
