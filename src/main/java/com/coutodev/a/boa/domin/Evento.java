@@ -1,5 +1,6 @@
 package com.coutodev.a.boa.domin;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,8 +24,12 @@ public class Evento {
     @Column(name = "tipo_evento")
     private TipoDoEvento tipo;
 
-
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime data;
+
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
 
     private String local;
 
