@@ -5,6 +5,7 @@ import com.coutodev.a.boa.DTO.EventoResponseDto;
 import com.coutodev.a.boa.Repository.EventoRpository;
 import com.coutodev.a.boa.domin.Evento;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -38,7 +39,7 @@ public class EventoService {
         return mapper.map(salvo,EventoResponseDto.class);
     }
 
-    public EventoResponseDto atualizarEvento(EventoRequestDto dto,Long id) {
+    public EventoResponseDto atualizarEvento(EventoRequestDto dto,Long id,UserDetails usuarioLogado) {
         var evento = eventoRepository.findById(id)
                 .orElseThrow(()-> new RuntimeException("evento não encontrado"));
         mapper.map(dto,evento);
@@ -54,7 +55,14 @@ public class EventoService {
                 .toList();
     }
 
-    public void deletarEvento(Long id) {
+    public void deletarEvento(Long id, UserDetails usuarioLogado) {
+        var evento = eventoRepository.findById(id)
+                        .orElseThrow(()-> new RuntimeException("evento não encontrado"));
+
+        if (!evento.getUsuario().getEmail().equals(usuarioLogado.getUsername())){
+            throw new RuntimeException("voce não tem permissao para dletar esse evento");
+        }
+
         eventoRepository.deleteById(id);
     }
 
@@ -64,7 +72,7 @@ public class EventoService {
                 .orElseThrow(()-> new RuntimeException("evento não encontrado"));
     }
 
-    public Evento uploadImagem(Long id, MultipartFile file){
+    public Evento uploadImagem(Long id, MultipartFile file,UserDetails usuarioLogado){
         if (!tiposPermitidos.contains(file.getContentType())){
             throw new RuntimeException("apenas imagens são permitidas");
         }
