@@ -4,6 +4,7 @@ import com.coutodev.a.boa.DTO.EventoRequestDto;
 import com.coutodev.a.boa.DTO.EventoResponseDto;
 import com.coutodev.a.boa.Repository.EventoRpository;
 import com.coutodev.a.boa.domin.Evento;
+import com.coutodev.a.boa.domin.Usuario;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,8 @@ public class EventoService {
 
     private final EventoRpository eventoRepository;
 
+
+
     private final String uploadDir = "uploads/eventos/";
     private final List<String> tiposPermitidos = List.of("image/jpeg","image/png","image/webp");
     private final long tamanhoMaximo = 5 * 1024 * 1024; // 5MB
@@ -30,19 +33,33 @@ public class EventoService {
 
     public EventoService(EventoRpository eventoRepository, ModelMapper mapper) {
         this.eventoRepository = eventoRepository;
+
         this.mapper = mapper;
     }
 
-    public EventoResponseDto criarEvento(EventoRequestDto dto) {
+    public EventoResponseDto criarEvento(EventoRequestDto dto,UserDetails usuarioLogado) {
         Evento evento = mapper.map(dto, Evento.class);
+        Usuario usuario =(Usuario) usuarioLogado;
+        evento.setUsuario(usuario);
         var salvo = eventoRepository.save(evento);
-        return mapper.map(salvo,EventoResponseDto.class);
+       EventoResponseDto response = mapper.map(salvo, EventoResponseDto.class);
+       response.setUsuarioId(usuario.getId());
+       return response;
     }
 
     public EventoResponseDto atualizarEvento(EventoRequestDto dto,Long id,UserDetails usuarioLogado) {
         var evento = eventoRepository.findById(id)
                 .orElseThrow(()-> new RuntimeException("evento não encontrado"));
+
+
+        if (!evento.getUsuario().getEmail().equals(usuarioLogado.getUsername())){
+            throw new RuntimeException("voce não tem permissao para atualizar esse evento");
+        }
+
+        Usuario usuario = (Usuario) usuarioLogado;
         mapper.map(dto,evento);
+        evento.setUsuario(usuario);
+
         var salvo =  eventoRepository.save(evento);
         return mapper.map(salvo, EventoResponseDto.class);
 
@@ -56,11 +73,11 @@ public class EventoService {
     }
 
     public void deletarEvento(Long id, UserDetails usuarioLogado) {
-        var evento = eventoRepository.findById(id)
+                var evento = eventoRepository.findById(id)
                         .orElseThrow(()-> new RuntimeException("evento não encontrado"));
 
         if (!evento.getUsuario().getEmail().equals(usuarioLogado.getUsername())){
-            throw new RuntimeException("voce não tem permissao para dletar esse evento");
+            throw new RuntimeException("voce não tem permissao para deletar esse evento");
         }
 
         eventoRepository.deleteById(id);
