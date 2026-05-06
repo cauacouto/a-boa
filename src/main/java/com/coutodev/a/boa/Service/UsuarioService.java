@@ -1,6 +1,8 @@
 package com.coutodev.a.boa.Service;
 
 import com.coutodev.a.boa.DTO.DadosCadastroDto;
+import com.coutodev.a.boa.DTO.DadosCadastroResponse;
+import com.coutodev.a.boa.DTO.DadosLoginDto;
 import com.coutodev.a.boa.Exception.UsuarioExcepiton;
 import com.coutodev.a.boa.Repository.UsuariosRepository;
 import com.coutodev.a.boa.Security.TokenService;
@@ -19,25 +21,25 @@ public class UsuarioService {
 
 
 
-    public void registrar(DadosCadastroDto dados){
-         if (usuariosRepository.existsByEmail(dados.email())){
+    public DadosCadastroResponse registrar(DadosCadastroDto dados){
+         if (usuariosRepository.existsByEmail(dados.getEmail())){
          throw new RuntimeException("email ja existente");
 
          }
 
-         var senhaCriptografada = passwordEncoder.encode(dados.senha());
-
-        var usuario = new Usuario(dados,senhaCriptografada);
-        usuariosRepository.save(usuario);
+         var senhaCriptografada = passwordEncoder.encode(dados.getPassword());
+         Usuario usuario = new Usuario(dados,senhaCriptografada);
+             usuariosRepository.save(usuario);
+            return new DadosCadastroResponse(usuario);
 
     }
 
-    public String login(DadosCadastroDto dados){
-        var usuario = usuariosRepository.findByEmail(dados.email())
+    public String login(DadosLoginDto dados){
+        var usuario = usuariosRepository.findByEmail(dados.getEmail())
                 .orElseThrow(UsuarioExcepiton::new);
 
 
-        if (!passwordEncoder.matches(dados.senha(), usuario.getPassword())){
+        if (!passwordEncoder.matches(dados.getPassword(), usuario.getPassword())){
             throw new RuntimeException("senha invalida");
         }
         return tokenService.gerarToken(usuario);
