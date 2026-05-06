@@ -25,8 +25,8 @@ public class EventoController {
     EventoService service;
 
     @PostMapping()
-    public ResponseEntity<EventoResponseDto> criarEvento(@RequestBody @Valid EventoRequestDto dto) {
-        EventoResponseDto response = service.criarEvento(dto);
+    public ResponseEntity<EventoResponseDto> criarEvento(@RequestBody @Valid EventoRequestDto dto,@AuthenticationPrincipal UserDetails usuarioLogado) {
+        EventoResponseDto response = service.criarEvento(dto,usuarioLogado);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
