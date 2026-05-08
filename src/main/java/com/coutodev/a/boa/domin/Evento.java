@@ -41,6 +41,10 @@ public class Evento {
     private String imageUrl;
 
 
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
     public long getId() {
         return id;
     }
