@@ -1,17 +1,14 @@
 package com.coutodev.a.boa.DTO;
 
+import com.coutodev.a.boa.domin.Evento;
 import com.coutodev.a.boa.domin.TipoDoEvento;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+
 public class EventoResponseDto {
 
 
@@ -23,8 +20,22 @@ public class EventoResponseDto {
     private String descricao;
     private String organizador;
     private UUID usuarioId;
+    private String imageUrl;
 
 
+    public EventoResponseDto(){}
+
+    public EventoResponseDto(Evento evento) {
+        this.id = evento.getId();
+        this.nome = evento.getNome();
+        this.tipo = evento.getTipo();
+        this.data = evento.getData();
+        this.local = evento.getLocal();
+        this.descricao = evento.getDescricao();
+        this.organizador = evento.getOrganizador();
+        this.usuarioId = evento.getUsuario().getId();
+        this.imageUrl = evento.getImageUrl();
+    }
 }
 
 
