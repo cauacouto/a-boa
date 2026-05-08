@@ -54,8 +54,8 @@ public class EventoController {
     }
 
     @PostMapping("/{id}/imagem")
-    public ResponseEntity<Evento> uploadImagem(@PathVariable Long id,@RequestParam("file") MultipartFile file,@AuthenticationPrincipal UserDetails usuarioLogado){
-        return ResponseEntity.ok(service.uploadImagem(id,file,usuarioLogado));
+    public ResponseEntity<EventoResponseDto> uploadImagem(@PathVariable Long id,@RequestParam("file") MultipartFile file,@AuthenticationPrincipal UserDetails usuarioLogado){
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.uploadImagem(id,file,usuarioLogado));
     }
 
 
